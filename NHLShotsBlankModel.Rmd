@@ -1,0 +1,46 @@
+---
+title: "NHL Shot Data Blank Canvas"
+output: html_notebook
+---
+
+Ok, here's the bare minimum you need to adjust or make the model into pretty pictures. Have fun! 
+
+
+Packages for your graphing pleasure: 
+
+```{r}
+#Necessary packages installed, so uncomment this code as needed for your package availability
+#install.packages("tidyverse")
+#install.packages("RCurl")
+#install.packages('fastDummies')
+library(tidyverse)
+library(RCurl)
+library(grid)
+library(tidyverse)
+library(mosaic)
+```
+
+Here's the dataset you'll need (downloaded from the Drive)
+
+
+```{r}
+FinalCleanData <- readRDS("FinalWorkingShotData.rds")
+FinalCleanData
+```
+
+It already has the xSave values fitted to it, but in case you want to modify or edit or are curious, here's what I used to make them (feel free to change):
+
+```{r}
+xSave2 <-glm (save_dummy ~ DistanceToNet + DumpInDummy + BehindNetDummy +  ScoreStateForGoalieAtShot + GameShotNumber + SecondsSinceLastShot + Rebound + DaysSinceLastGame + factor(period) + factor(shotType) + factor(goalie_team_name) + factor(shooter_team_name), data = FinalCleanData, family = "binomial")
+summary(xSave2)
+```
+
+
+And fitting them to the data:
+
+```{r}
+FinalCleanData$xSave <- fitted(xSave2)
+```
+
+
+Alright, from here you can go nuts! Adjust the model, make pretty pictures, whatever you are tasked to do/want to do. Have fun, and if you wanna see the ugly code for this, ask away! 
